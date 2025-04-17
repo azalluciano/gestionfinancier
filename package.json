@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.15.0",
+    "@prisma/client": "^5.21.1",
+    "@supabase/supabase-js": "^2.49.4",
     "lucide-react": "^0.488.0",
     "next": "15.3.0",
     "react": "^19.0.0",
@@ -24,6 +26,7 @@
     "daisyui": "^5.0.19",
     "eslint": "^9",
     "eslint-config-next": "15.3.0",
+    "prisma": "^6.6.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
