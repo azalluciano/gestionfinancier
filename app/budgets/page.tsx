@@ -1,10 +1,12 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Wrapper from "../components/Wrapper";
 import { useUser } from "@clerk/nextjs";
 import EmojiPicker from "emoji-picker-react";
-import { addBudgets } from "../action";
+import { addBudgets, getBudgetsByUser } from "../action";
 import { toast } from "react-toastify";
+import { Budget } from "@/type";
+import Link from "next/link";
 
 const Page = () => {
   const { user } = useUser();
@@ -12,6 +14,7 @@ const Page = () => {
   const [budgetAmount, setBudgetAmount] = useState<string>("");
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const [selectedEmoji, setSelectedEmoji] = useState<string>("");
+  const [budgets, setBudgets] = useState<Budget[]>([]);
   const handleEmojiSelected = (emojiObject: { emoji: string }) => {
     setSelectedEmoji(emojiObject.emoji);
     setShowEmojiPicker(false);
@@ -26,15 +29,45 @@ const Page = () => {
         return;
       }
       await addBudgets(
-        user?.primaryEmailAddress?.emailAddress || "",
+        user?.primaryEmailAddress?.emailAddress as string,
         budgetName,
         amount,
         selectedEmoji
       );
+      const modal = document.getElementById("my_modal_3") as HTMLDialogElement;
+      if (modal) {
+        modal.close();
+        toast.success("Budget ajouté avec succès !");
+      } else {
+        toast.error("Erreur lors de la fermeture de la modale.");
+      }
     } catch (error) {
       toast.error("Erreur lors de l'ajout du budget.");
     }
+
+    setBudgetName("");
+    setBudgetAmount("");
+    setSelectedEmoji("");
+    setShowEmojiPicker(false);
   };
+
+  const fetchBudgets = async () => {
+    if (user?.primaryEmailAddress?.emailAddress) {
+      try {
+        const userBudgets = await getBudgetsByUser(
+          user?.primaryEmailAddress?.emailAddress
+        );
+        setBudgets(userBudgets);
+      } catch (error) {
+        toast.error(`Erreur lors de la récupération des budgets: ${error}`);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchBudgets();
+  }, [user?.primaryEmailAddress?.emailAddress]);
+
   return (
     <Wrapper>
       <button
@@ -91,6 +124,13 @@ const Page = () => {
           </div>
         </div>
       </dialog>
+      <ul className="grid md:grid-cols-3 gap-4">
+        {budgets.map((budget, index) => (
+          <Link key={index} href={""}>
+            teste
+          </Link>
+        ))}
+      </ul>
     </Wrapper>
   );
 };
