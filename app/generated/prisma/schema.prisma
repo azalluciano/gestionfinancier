@@ -1,15 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
   output   = "../app/generated/prisma"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -24,10 +20,10 @@ model Budget {
   name         String
   amount       Float
   userId       String
-  user         User          @relation(fields: [userId], references: [id])
   emoji        String?
-  transactions Transaction[]
   createdAt    DateTime      @default(now())
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
 }
 
 model Transaction {
@@ -35,7 +31,7 @@ model Transaction {
   description String
   amount      Float
   budgetId    String?
-  budget      Budget?  @relation(fields: [budgetId], references: [id])
   emoji       String?
   createdAt   DateTime @default(now())
+  budget      Budget?  @relation(fields: [budgetId], references: [id])
 }

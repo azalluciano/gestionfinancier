@@ -2,8 +2,9 @@
 
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { checkAndAddUser } from "../action";
 
 const NavBar = () => {
   const { user, isLoaded, isSignedIn } = useUser();
@@ -12,6 +13,12 @@ const NavBar = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  useEffect(() => {
+    if (user?.primaryEmailAddress?.emailAddress) {
+      checkAndAddUser(user.primaryEmailAddress.emailAddress);
+    }
+  }, [user]);
 
   return (
     <div className="bg-base-100 shadow-md sticky top-0 z-50">
@@ -67,7 +74,7 @@ const NavBar = () => {
                     href="/sign-up"
                     className="px-4 py-2 bg-primary text-primary-content rounded-lg font-medium hover:bg-primary-focus transition-colors"
                   >
-                    S'inscrire
+                    S&apos;inscrire
                   </Link>
                 </div>
               )}
@@ -134,7 +141,7 @@ const NavBar = () => {
                 className="px-4 py-2 text-center btn btn-primary text-primary-content rounded-lg font-medium"
                 onClick={toggleMenu}
               >
-                S'inscrire
+                S&apos;inscrire
               </Link>
             </>
           )}
