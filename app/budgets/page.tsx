@@ -7,6 +7,7 @@ import { addBudgets, getBudgetsByUser } from "../action";
 import { toast } from "react-toastify";
 import { Budget } from "@/type";
 import Link from "next/link";
+import BudgetItem from "../components/BudgetItem";
 
 const Page = () => {
   const { user } = useUser();
@@ -71,7 +72,7 @@ const Page = () => {
   return (
     <Wrapper>
       <button
-        className="btn"
+        className="btn mb-4"
         onClick={() =>
           (
             document.getElementById("my_modal_3") as HTMLDialogElement
@@ -127,7 +128,7 @@ const Page = () => {
       <ul className="grid md:grid-cols-3 gap-4">
         {budgets.map((budget, index) => (
           <Link key={index} href={""}>
-            teste
+            <BudgetItem budget={budget} enableHover={1} />
           </Link>
         ))}
       </ul>
