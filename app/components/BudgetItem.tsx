@@ -13,7 +13,7 @@ const BudgetItem: FC<BudgetItemProps> = ({ budget, enableHover = 1 }) => {
   const transactionCount = budget.transactions ? budget.transactions.length : 0;
   const totalTransactionAmount = budget.transactions
     ? budget.transactions.reduce(
-        (sum, transaction) => sum + transaction.amount,
+        (sum: number, transaction) => sum + transaction.amount,
         0
       )
     : 0;
