@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { Budget } from "@/type";
 import Link from "next/link";
 import BudgetItem from "../components/BudgetItem";
+import { Landmark } from "lucide-react";
 
 const Page = () => {
   const { user } = useUser();
@@ -49,6 +50,7 @@ const Page = () => {
     setBudgetName("");
     setBudgetAmount("");
     setSelectedEmoji("");
+    fetchBudgets();
     setShowEmojiPicker(false);
   };
 
@@ -80,6 +82,7 @@ const Page = () => {
         }
       >
         Nouveau Budget
+        <Landmark className="w-4"/>
       </button>
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
@@ -127,7 +130,7 @@ const Page = () => {
       </dialog>
       <ul className="grid md:grid-cols-3 gap-4">
         {budgets.map((budget, index) => (
-          <Link key={index} href={""}>
+          <Link key={index} href={`/manage/${budget.id}`}>
             <BudgetItem budget={budget} enableHover={1} />
           </Link>
         ))}

@@ -12,13 +12,22 @@ interface BudgetItemProps {
 const BudgetItem: FC<BudgetItemProps> = ({ budget, enableHover = 1 }) => {
   const transactionCount = budget.transactions ? budget.transactions.length : 0;
   const totalTransactionAmount = budget.transactions
-    ? budget.transactions.reduce((sum, transaction) => sum + transaction.amount, 0)
+    ? budget.transactions.reduce(
+        (sum, transaction) => sum + transaction.amount,
+        0
+      )
     : 0;
   const remainingAmount = budget.amount - totalTransactionAmount;
-  const percentageUsed = Math.min(Math.round((totalTransactionAmount / budget.amount) * 100), 100);
+  const percentageUsed = Math.min(
+    Math.round((totalTransactionAmount / budget.amount) * 100),
+    100
+  );
 
   // Classes conditionnelles pour le survol
-  const hoverClasses = enableHover === 1 ? "hover:shadow-xl hover:border-indigo-500 hover:scale-[1.02]" : "";
+  const hoverClasses =
+    enableHover === 1
+      ? "hover:shadow-xl hover:border-indigo-500 hover:scale-[1.02]"
+      : "";
 
   // Dynamically set progress bar color based on percentage used
   const getProgressColor = () => {
@@ -28,7 +37,9 @@ const BudgetItem: FC<BudgetItemProps> = ({ budget, enableHover = 1 }) => {
   };
 
   return (
-    <li className={`p-5 rounded-2xl border border-gray-100 list-none shadow-md bg-white transition-all duration-300 relative overflow-hidden ${hoverClasses}`}>
+    <li
+      className={`p-5 rounded-2xl border border-gray-100 list-none shadow-md bg-white transition-all duration-300 relative overflow-hidden ${hoverClasses}`}
+    >
       {/* Top section with name and amount */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center">
@@ -36,14 +47,19 @@ const BudgetItem: FC<BudgetItemProps> = ({ budget, enableHover = 1 }) => {
             {budget.emoji}
           </div>
           <div className="flex flex-col ml-4">
-            <span className="font-bold text-xl text-gray-800">{budget.name}</span>
+            <span className="font-bold text-xl text-gray-800">
+              {budget.name}
+            </span>
             <div className="flex items-center text-gray-500 text-sm mt-1">
               <Calendar size={14} className="mr-1" />
-              <span>{transactionCount} transaction{transactionCount !== 1 ? 's' : ''}</span>
+              <span>
+                {transactionCount} transaction
+                {transactionCount !== 1 ? "s" : ""}
+              </span>
             </div>
           </div>
         </div>
-        <div className="text-xl font-bold text-indigo-600 bg-indigo-50 px-4 py-2 rounded-lg">
+        <div className="text-sm font-bold text-indigo-600 bg-indigo-50 px-4 py-2 rounded-lg">
           {budget.amount.toLocaleString()} Ar
         </div>
       </div>

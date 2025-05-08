@@ -4,6 +4,8 @@ import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import NavBar from "./components/NavBar";
 import Image from "next/image";
+import BudgetItem from "./components/BudgetItem";
+import budgets from "./data";
 
 export default function Home() {
   return (
